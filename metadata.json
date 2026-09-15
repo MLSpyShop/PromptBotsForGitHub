@@ -1,0 +1,6 @@
+{
+  "name": "PromptBots for GitHub",
+  "description": "Mobile-first builder & exporter for custom open-source and multi-model AI prompt bots deployable directly to GitHub Pages.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

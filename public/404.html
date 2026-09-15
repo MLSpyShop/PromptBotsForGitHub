@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GeminiForge</title>
+    <script type="text/javascript">
+      // Single Page App redirect for GitHub Pages 404 fallback
+      var segmentCount = 0;
+      var l = window.location;
+      var pathSegments = l.pathname.split('/').slice(1);
+      if (pathSegments.length > segmentCount && pathSegments[0] !== '') {
+        // If hosted on subpath like /repo-name/, redirect to index with hash/search preserved
+        var repoName = pathSegments[0];
+        if (l.href.indexOf(l.protocol + '//' + l.host + '/' + repoName) === 0) {
+          // Already on correct origin
+        }
+      }
+      // Redirect to root index.html with query/hash
+      window.location.replace(
+        l.protocol + '//' + l.host + (l.pathname.indexOf('/') === 0 && l.pathname.split('/')[1] ? '/' + l.pathname.split('/')[1] + '/' : '/') +
+        (l.search ? l.search : '') +
+        (l.hash ? l.hash : '')
+      );
+    </script>
+  </head>
+  <body>
+    <div style="font-family: sans-serif; text-align: center; padding-top: 50px;">
+      <h2>Redirecting to GeminiForge...</h2>
+    </div>
+  </body>
+</html>
