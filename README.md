@@ -41,10 +41,25 @@ A powerful tool to design, configure, and deploy AI-powered chatbots without cod
   - gemini-flash-latest
   - gemini-3.1-flash-lite
   - gemini-3.8-flash
-- **OpenRouter API** (optional, 100+ models available)
-  - DeepSeek R1
-  - Meta Llama
-  - And many more...
+
+- **OpenRouter API** (optional, 100+ models including free tiers):
+  - **Free Models Available:**
+    - 🆓 **NVIDIA Nemotron 3 Ultra** - 55B parameters, 1M context tokens, excellent for reasoning
+    - 🆓 **Poolside Laguna S 2.1** - 118B total/8B active, 262K context, top coding agent
+    - 🆓 **NVIDIA Nemotron 3.5 Lightning** - 3B active/30B total (MoE), 1M context
+    - 🆓 **Google Gemma 4-26B A4B** - Vision + tools support, 262K context
+    - 🆓 **ThinkingMachines Inkling Small** - 1M context, vision & tools
+    - 🆓 **InclusionAI Ling 3.0 Flash VL** - Vision + tools, 262K context
+    - 🆓 **Cohere North Mini Code** - Coding focused, 256K context
+    - 🆓 **LiquidAI LFM 2.5-2.6B** - Tools support, 66K context
+    - 🆓 **DeepSeek R1 Free** - Reasoning model (original default)
+    - 🆓 **Auto-select Free** - Uses `openrouter/free` for best available model
+  
+  - **Premium Models on OpenRouter:**
+    - Meta Llama 3.3, 3.2, and variants
+    - Anthropic Claude 3.5 Sonnet
+    - OpenAI GPT-4o
+    - And 100+ more...
 
 ### 🎯 Customization Options
 - **Theme colors** - Choose from 7 professional color schemes
@@ -90,6 +105,12 @@ A powerful tool to design, configure, and deploy AI-powered chatbots without cod
    - Upload custom logo (optional)
    - Adjust temperature for creativity level
 
+4. **Choose AI Provider** (optional):
+   - **Gemini** (default) - Free, reliable
+   - **OpenRouter** - Access free models or premium options
+     - Copy your OpenRouter API key from [openrouter.ai](https://openrouter.ai)
+     - Select from 100+ available models
+
 ### Step 3: Test Your Bot
 1. Switch to the **Preview** tab
 2. Chat with your bot in real-time
@@ -129,7 +150,7 @@ A powerful tool to design, configure, and deploy AI-powered chatbots without cod
 - **Node.js** 16+ and **npm** or **yarn**
 - **Git** for version control
 - **Google Gemini API key** (free at [aistudio.google.com](https://aistudio.google.com))
-- *(Optional)* **OpenRouter API key** for advanced model access
+- *(Optional)* **OpenRouter API key** for accessing 100+ free and premium models
 
 #### Installation
 
@@ -154,7 +175,7 @@ APP_URL=http://localhost:3000
 
 **Get your API keys:**
 - **Gemini API**: Visit [aistudio.google.com](https://aistudio.google.com), create a new API key
-- **OpenRouter**: Visit [openrouter.ai](https://openrouter.ai), sign up and create an API key
+- **OpenRouter**: Visit [openrouter.ai](https://openrouter.ai), sign up and create a free API key (no credit card needed)
 
 ##### 4. Start Development Server
 ```bash
@@ -201,9 +222,11 @@ The builder is your main workspace:
   - `Temperature` - AI creativity (0 = factual, 2 = creative)
 
 - **Model & Provider Selection**
-  - `Model` - Choose Gemini model version
+  - `Model` - Choose Gemini model version or OpenRouter model
   - `Provider` - Gemini (default) or OpenRouter
-  - `OpenRouter Model` - If using OpenRouter
+  - `OpenRouter Model` - If using OpenRouter, select from:
+    - **Free Models**: `nvidia/nemotron-3-ultra-550b-a55b:free`, `poolside/laguna-s-2.1:free`, etc.
+    - **Premium Models**: Claude 3.5, GPT-4o, Llama 3.3, and more
   - `Require API Key` - Checkbox if deployed bot needs user's API key
 
 ### 2. Preview Tab - Test Your Bot Live
@@ -266,6 +289,48 @@ jobs:
 ```
 
 2. Push changes to `main` - workflow deploys automatically
+
+---
+
+## 🔐 OpenRouter Free Models Details
+
+### Rate Limits & Quotas
+- **Free tier**: ~20 requests/minute, ~200 requests/day per model
+- **No credit card required** - Just sign up for an API key
+- Data from free models may be used to improve the models
+
+### Available Free Models (September 2026)
+
+| Model | Parameters | Context | Specialty | Best For |
+|-------|-----------|---------|-----------|----------|
+| **NVIDIA Nemotron 3 Ultra** | 55B active | 1M tokens | Reasoning, Planning, Agentic | Complex workflows, multi-step reasoning |
+| **Poolside Laguna S 2.1** | 8B active/118B total | 262K tokens | Code, Agentic | Programming tasks, code generation |
+| **NVIDIA Nemotron 3.5 Lightning** | 3B active/30B total | 1M tokens | High-throughput | Fast responses, many concurrent requests |
+| **Google Gemma 4-26B A4B** | 26B | 262K tokens | Vision, Tools | Multimodal analysis, structured tasks |
+| **ThinkingMachines Inkling Small** | Smaller | 1M tokens | Reasoning, Vision, Tools | Extended context, thoughtful responses |
+| **InclusionAI Ling 3.0 Flash VL** | Smaller | 262K tokens | Vision, Tools | Vision tasks, accessibility |
+| **Cohere North Mini Code** | Smaller | 256K tokens | Code Focus | Programming assistance |
+| **LiquidAI LFM 2.5-2.6B** | 2.5-2.6B | 66K tokens | Tools, Speed | Lightweight, fast inference |
+| **DeepSeek R1** | Large | Extended | Reasoning | Complex problem-solving |
+
+### Using Free Models in Builder
+1. Select **OpenRouter** as provider
+2. Enter your free OpenRouter API key
+3. Choose a free model from the dropdown:
+   ```
+   nvidia/nemotron-3-ultra-550b-a55b:free
+   poolside/laguna-s-2.1:free
+   google/gemma-4-26b-a4b:free
+   deepseek/deepseek-r1:free
+   ```
+4. Test in Preview tab
+5. Export and deploy!
+
+### Auto-Select Free Models
+Use the special endpoint for automatic fallback to available free models:
+```
+openrouter/free  # Automatically selects best available free model
+```
 
 ---
 
@@ -373,6 +438,7 @@ Live chat preview endpoint for testing bots.
 
 ### Automatic Model Fallback
 
+**For Gemini:**
 The backend automatically switches between Gemini models if one reaches capacity:
 1. Tries your requested model
 2. Falls back to `gemini-2.5-flash`
@@ -380,17 +446,22 @@ The backend automatically switches between Gemini models if one reaches capacity
 4. Then `gemini-3.1-flash-lite`
 5. Finally `gemini-3.8-flash`
 
+**For OpenRouter:**
+- Specify your desired model
+- Automatic fallback if model unavailable
+- Use `openrouter/free` to auto-select best available free model
+
 ---
 
 ## 🐛 Troubleshooting
 
 ### "API Key not found"
-- ✅ Check `.env` file has `GEMINI_API_KEY=...`
+- ✅ Check `.env` file has `GEMINI_API_KEY=...` or `OPENROUTER_API_KEY=...`
 - ✅ Restart dev server after changing `.env`
 - ✅ Ensure API key has no trailing spaces
 
 ### "Model response failed"
-- ✅ Verify Google Gemini quota at [aistudio.google.com](https://aistudio.google.com)
+- ✅ Verify quota at [aistudio.google.com](https://aistudio.google.com) (Gemini) or [openrouter.ai](https://openrouter.ai) (OpenRouter)
 - ✅ App auto-retries with fallback models
 - ✅ Try again in 30 seconds if high demand
 
@@ -406,10 +477,11 @@ The backend automatically switches between Gemini models if one reaches capacity
 - ✅ Clear browser cache (Ctrl+Shift+Del)
 
 ### "OpenRouter API errors"
-- ✅ Verify OpenRouter API key is valid
-- ✅ Check account has remaining credits
-- ✅ Confirm model exists in OpenRouter catalog
+- ✅ Verify OpenRouter API key is valid at [openrouter.ai/keys](https://openrouter.ai/keys)
+- ✅ Check account status and rate limits
+- ✅ Confirm selected model exists in OpenRouter catalog
 - ✅ Check network/firewall not blocking requests
+- ✅ For free models, verify rate limits not exceeded (20 req/min, 200 req/day)
 
 ---
 
@@ -420,6 +492,7 @@ The backend automatically switches between Gemini models if one reaches capacity
 Name: Code Review Bot
 Description: Reviews code for quality and security
 System Instruction: "You are an expert code reviewer. Analyze pull requests for bugs, security issues, and best practices. Be constructive and educational."
+Recommended Model: NVIDIA Nemotron 3 Ultra (reasoning-heavy)
 ```
 
 ### Product Manager Assistant
@@ -427,6 +500,7 @@ System Instruction: "You are an expert code reviewer. Analyze pull requests for 
 Name: PM Helper
 Description: Helps craft product strategies and specs
 System Instruction: "You are a seasoned product manager. Help users define product requirements, user stories, and go-to-market strategies..."
+Recommended Model: Llama 3.3 (general knowledge, versatile)
 ```
 
 ### Learning Tutor
@@ -434,6 +508,7 @@ System Instruction: "You are a seasoned product manager. Help users define produ
 Name: Python Tutor
 Description: Teaches Python programming concepts
 System Instruction: "You are a patient coding instructor. Explain Python concepts clearly, provide examples, and suggest practice problems..."
+Recommended Model: Cohere North Mini Code (coding focused)
 ```
 
 ---
@@ -465,7 +540,8 @@ This project is provided as-is. Check repository for license details.
 ## 🔗 Resources
 
 - **Google Gemini API**: [aistudio.google.com](https://aistudio.google.com)
-- **OpenRouter**: [openrouter.ai](https://openrouter.ai)
+- **OpenRouter (100+ Models)**: [openrouter.ai](https://openrouter.ai)
+- **OpenRouter Free Models List**: [openrouter.ai/collections/free](https://openrouter.ai/collections/free)
 - **React Documentation**: [react.dev](https://react.dev)
 - **TypeScript Handbook**: [typescriptlang.org](https://www.typescriptlang.org/)
 - **Tailwind CSS**: [tailwindcss.com](https://tailwindcss.com)
