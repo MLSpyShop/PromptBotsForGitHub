@@ -21,6 +21,17 @@ export function PresetModal({ isOpen, onClose, onSelectPreset }: PresetModalProp
     }
   };
 
+  const formatModelName = (preset: GemConfig) => {
+    if (preset.provider === 'openrouter') {
+      const raw = preset.openRouterModel || 'openrouter/auto:free';
+      if (raw === 'openrouter/auto:free') return '⚡ Auto-Free';
+      const parts = raw.split('/');
+      const name = (parts[1] || raw).replace(':free', '');
+      return name;
+    }
+    return preset.model;
+  };
+
   return (
     <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
       <div className="bg-white border border-slate-200 rounded-2xl max-w-2xl w-full p-6 shadow-2xl space-y-6 animate-in fade-in zoom-in-95 duration-200">
@@ -50,8 +61,8 @@ export function PresetModal({ isOpen, onClose, onSelectPreset }: PresetModalProp
                   <div className="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 group-hover:scale-105 transition">
                     {getIcon(preset.icon)}
                   </div>
-                  <span className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-slate-200 text-slate-700">
-                    {preset.model}
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 border border-indigo-100/80 truncate max-w-[150px]">
+                    {formatModelName(preset)}
                   </span>
                 </div>
                 <div>

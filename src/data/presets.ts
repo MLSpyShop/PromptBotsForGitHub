@@ -18,7 +18,7 @@ export const INITIAL_EMPTY_BOT: GemConfig = {
 };
 
 export const PRESET_GEMS: GemConfig[] = [
-  // 1. Business Strategy & Executive Advisor (Requested)
+  // 1. Business Strategy & Executive Advisor (NVIDIA Nemotron 3 Ultra)
   {
     id: 'business-executive-advisor',
     name: 'Executive Business Strategist',
@@ -33,13 +33,15 @@ export const PRESET_GEMS: GemConfig[] = [
     ],
     icon: 'Briefcase',
     themeColor: 'indigo',
+    provider: 'openrouter',
+    openRouterModel: 'nvidia/nemotron-3-ultra',
     model: 'gemini-3.8-flash',
     temperature: 0.4,
     authorName: 'PromptBots for GitHub Business Suite',
     requireApiKey: true
   },
 
-  // 2. OSINT & Threat Intelligence Analyst (Requested)
+  // 2. OSINT & Threat Intelligence Analyst (DeepSeek R1 Free)
   {
     id: 'osint-threat-intelligence',
     name: 'OSINT & Threat Intelligence Analyst',
@@ -54,13 +56,15 @@ export const PRESET_GEMS: GemConfig[] = [
     ],
     icon: 'ShieldAlert',
     themeColor: 'rose',
-    model: 'gemini-3.8-flash',
+    provider: 'openrouter',
+    openRouterModel: 'deepseek/deepseek-r1:free',
+    model: 'gemini-3.1-pro-preview',
     temperature: 0.2,
     authorName: 'PromptBots for GitHub Security Suite',
     requireApiKey: true
   },
 
-  // 3. Code Review Mentor
+  // 3. Code Review Mentor (Poolside Laguna S 2.1)
   {
     id: 'code-mentor',
     name: 'Code Review Mentor',
@@ -75,13 +79,15 @@ export const PRESET_GEMS: GemConfig[] = [
     ],
     icon: 'Terminal',
     themeColor: 'indigo',
-    model: 'gemini-3.8-flash',
+    provider: 'openrouter',
+    openRouterModel: 'poolside/laguna-s-2.1',
+    model: 'gemini-2.5-flash',
     temperature: 0.3,
     authorName: 'PromptBots for GitHub Dev Suite',
     requireApiKey: true
   },
 
-  // 4. Socratic Tutor
+  // 4. Socratic Tutor (Google Gemini 3.8 Flash)
   {
     id: 'socratic-tutor',
     name: 'Socratic Math & Science Tutor',
@@ -96,13 +102,15 @@ export const PRESET_GEMS: GemConfig[] = [
     ],
     icon: 'GraduationCap',
     themeColor: 'emerald',
+    provider: 'gemini',
     model: 'gemini-3.8-flash',
+    openRouterModel: 'google/gemma-4-26b-a4b',
     temperature: 0.7,
     authorName: 'EduGen',
     requireApiKey: true
   },
 
-  // 5. Creative Writing Muse
+  // 5. Creative Writing Muse (ThinkingMachines Inkling Small)
   {
     id: 'creative-muse',
     name: 'Creative Writing Muse',
@@ -117,13 +125,15 @@ export const PRESET_GEMS: GemConfig[] = [
     ],
     icon: 'Sparkles',
     themeColor: 'violet',
-    model: 'gemini-3.8-flash',
+    provider: 'openrouter',
+    openRouterModel: 'thinkingmachines/inkling-small',
+    model: 'gemini-2.5-flash',
     temperature: 0.9,
     authorName: 'StoryCraft',
     requireApiKey: true
   },
 
-  // 6. SQL Wizard
+  // 6. SQL Wizard (Cohere North Mini Code)
   {
     id: 'sql-wizard',
     name: 'SQL & Data Query Wizard',
@@ -138,24 +148,120 @@ export const PRESET_GEMS: GemConfig[] = [
     ],
     icon: 'Database',
     themeColor: 'amber',
-    model: 'gemini-3.8-flash',
+    provider: 'openrouter',
+    openRouterModel: 'cohere/north-mini-code',
+    model: 'gemini-3.1-flash-lite',
     temperature: 0.2,
     authorName: 'DataOps',
     requireApiKey: true
   },
 
-  // Generate 94 additional robust presets to reach 100 total
-  ...Array.from({ length: 94 }, (_, index) => {
-    const idNum = index + 7;
+  // 7. DevOps & Infrastructure Speed Demon (NVIDIA Nemotron 3.5 Lightning)
+  {
+    id: 'devops-lightning',
+    name: 'DevOps & CI/CD Lightning Architect',
+    description: 'Generates blazing-fast Docker, Kubernetes manifests, and GitHub Actions CI/CD workflows.',
+    systemInstruction: `You are a Principal DevOps Engineer and Cloud Infrastructure Specialist. You build robust Dockerfiles, Helm charts, Terraform configurations, and GitHub Actions workflows. Prioritize reproducible, secure, and production-tested pipelines.`,
+    welcomeMessage: 'DevOps automation ready. What container, pipeline, or cloud infrastructure configuration are we deploying?',
+    starterPrompts: [
+      'Create a multi-stage Dockerfile for a Next.js app',
+      'Write a GitHub Actions CI pipeline with caching and linting',
+      'Generate Kubernetes Ingress & deployment manifests',
+      'How to set up automated canary deployments?'
+    ],
+    icon: 'Terminal',
+    themeColor: 'cyan',
+    provider: 'openrouter',
+    openRouterModel: 'nvidia/nemotron-3.5-lightning',
+    model: 'gemini-2.5-flash',
+    temperature: 0.3,
+    authorName: 'CloudOps Pro',
+    requireApiKey: true
+  },
+
+  // 8. UX/UI & Multimodal Vision Critic (InclusionAI Ling 3.0 Flash VL)
+  {
+    id: 'ux-design-critic',
+    name: 'UX/UI & Accessibility Critic',
+    description: 'Audits user interfaces for WCAG accessibility, visual hierarchy, micro-interactions, and conversion design.',
+    systemInstruction: `You are a Principal UX/UI Design Critic and Accessibility Auditor. When users share UI descriptions or ask design questions, evaluate them through Nielsen heuristics, optical balance, WCAG 2.2 AA contrast ratios, and intuitive user flows.`,
+    welcomeMessage: 'UX Critic active. Describe your user flow or UI challenge for an in-depth heuristic audit.',
+    starterPrompts: [
+      'Audit this checkout flow for friction points',
+      'How to ensure WCAG 2.2 color contrast compliance',
+      'Design an accessible mobile navigation pattern',
+      'Improve landing page conversion typography'
+    ],
+    icon: 'Sparkles',
+    themeColor: 'violet',
+    provider: 'openrouter',
+    openRouterModel: 'inclusionai/ling-3.0-flash-vl',
+    model: 'gemini-2.5-flash',
+    temperature: 0.5,
+    authorName: 'DesignHeuristics',
+    requireApiKey: true
+  },
+
+  // 9. Liquid Metacognitive Prompt Tuner (LiquidAI LFM 2.5-2.6B)
+  {
+    id: 'prompt-engineer-liquid',
+    name: 'Metacognitive Prompt Tuner',
+    description: 'Transforms raw instructions into few-shot, role-conditioned, high-precision prompt templates.',
+    systemInstruction: `You are an elite AI Prompt Engineer and Cognitive Architect. You specialize in zero-shot, few-shot, and chain-of-thought prompt design. Optimize system instructions to minimize hallucination, maximize compliance, and structure JSON/markdown outputs reliably.`,
+    welcomeMessage: 'Prompt Tuner ready. Paste your raw prompt idea and I will engineer it into a production-grade system instruction.',
+    starterPrompts: [
+      'Turn my raw notes into a high-precision system prompt',
+      'Add chain-of-thought guards against hallucination',
+      'Create few-shot examples for structured data extraction',
+      'Optimize temperature and top_p settings for my bot'
+    ],
+    icon: 'Zap',
+    themeColor: 'amber',
+    provider: 'openrouter',
+    openRouterModel: 'liquid/lfm-2.5-2.6b',
+    model: 'gemini-3.8-flash',
+    temperature: 0.4,
+    authorName: 'PromptCraft',
+    requireApiKey: true
+  },
+
+  // 10. Autonomous Smart Router (Auto-select Free Endpoint)
+  {
+    id: 'auto-free-assistant',
+    name: 'Universal Free Assistant (Auto-Routed)',
+    description: 'Dynamic general-purpose assistant running on auto-routed free open-source endpoints.',
+    systemInstruction: `You are an adaptable, highly capable AI assistant running on free open-source endpoints. You provide clear, concise, well-structured, and helpful answers across coding, writing, research, and general inquiries.`,
+    welcomeMessage: 'Hello! I am your universal AI assistant powered by auto-selected free endpoints. How can I help you today?',
+    starterPrompts: [
+      'Summarize key principles of effective communication',
+      'Explain the difference between SQL and NoSQL',
+      'Draft a professional email proposing a collaboration',
+      'Help me plan a productive weekly schedule'
+    ],
+    icon: 'Bot',
+    themeColor: 'indigo',
+    provider: 'openrouter',
+    openRouterModel: 'openrouter/auto:free',
+    model: 'gemini-2.5-flash',
+    temperature: 0.7,
+    authorName: 'OpenRouter Free Ecosystem',
+    requireApiKey: true
+  },
+
+  // Generate 90 additional robust presets across varied models
+  ...Array.from({ length: 90 }, (_, index) => {
+    const idNum = index + 11;
     const categories = [
-      { name: 'Marketing & Growth Expert', desc: 'Growth marketing specialist for SEO, funnels, and viral loops.', icon: 'TrendingUp', color: 'cyan', prompt: 'You are an expert growth marketer specializing in digital acquisition funnels, SEO, email automation, and conversion rate optimization.' },
-      { name: 'Legal Contract Reviewer', desc: 'Analyzes legal clauses, liability, IP rights, and compliance risks.', icon: 'Scale', color: 'slate', prompt: 'You are an expert legal contract analyst. Review agreements for standard clauses, indemnification risks, and IP protection.' },
-      { name: 'UX/UI Design Critic', desc: 'Evaluates user interfaces for accessibility, heuristics, and conversion.', icon: 'Layers', color: 'violet', prompt: 'You are a principal UX/UI design critic focusing on Nielsen heuristics, accessibility (WCAG), and frictionless user flows.' },
-      { name: 'Financial Model Analyst', desc: 'Builds discounted cash flow models, burn rate forecasts, and cap tables.', icon: 'DollarSign', color: 'emerald', prompt: 'You are a senior financial analyst and CFO advisor specializing in DCF valuation, unit economics, and cash flow modeling.' },
-      { name: 'DevOps & Kubernetes Guru', desc: 'Automates CI/CD pipelines, Docker containers, and cloud infrastructure.', icon: 'Cpu', color: 'indigo', prompt: 'You are a Principal DevOps Engineer specializing in Kubernetes, Terraform, AWS/GCP, and secure CI/CD automation.' },
-      { name: 'AI Prompt Engineer', desc: 'Crafts flawless prompt templates, system instructions, and few-shot examples.', icon: 'Zap', color: 'amber', prompt: 'You are an advanced AI Prompt Engineer specializing in structured outputs, chain-of-thought tuning, and model alignment.' },
-      { name: 'Health & Wellness Coach', desc: 'Designs evidence-based fitness routines, nutrition plans, and sleep hygiene.', icon: 'Heart', color: 'rose', prompt: 'You are a certified holistic health and fitness coach. Provide safe, science-backed guidance on fitness and nutrition.' },
-      { name: 'Cybersecurity Auditor', desc: 'Identifies vulnerabilities, OWASP Top 10 risks, and hardening steps.', icon: 'Shield', color: 'rose', prompt: 'You are an ethical cybersecurity auditor specializing in vulnerability assessment, OWASP Top 10 mitigation, and hardening.' }
+      { name: 'Marketing & Growth Strategist', desc: 'Growth marketing specialist for SEO, funnels, and viral loops.', icon: 'Zap', color: 'cyan', provider: 'openrouter', orModel: 'deepseek/deepseek-chat:free', geminiModel: 'gemini-2.5-flash', prompt: 'You are an expert growth marketer specializing in digital acquisition funnels, SEO, email automation, and conversion rate optimization.' },
+      { name: 'Legal Contract Reviewer', desc: 'Analyzes legal clauses, liability, IP rights, and compliance risks.', icon: 'ShieldAlert', color: 'slate', provider: 'openrouter', orModel: 'nvidia/nemotron-3-ultra', geminiModel: 'gemini-3.1-pro-preview', prompt: 'You are an expert legal contract analyst. Review agreements for standard clauses, indemnification risks, and IP protection.' },
+      { name: 'Full-Stack Rapid Prototyper', desc: 'Generates clean TypeScript, React, and backend API handlers.', icon: 'Terminal', color: 'indigo', provider: 'openrouter', orModel: 'poolside/laguna-s-2.1', geminiModel: 'gemini-3.8-flash', prompt: 'You are an agile Full-Stack Prototyper delivering modern, modular TypeScript and React code.' },
+      { name: 'Financial Model Analyst', desc: 'Builds discounted cash flow models, burn rate forecasts, and cap tables.', icon: 'Briefcase', color: 'emerald', provider: 'openrouter', orModel: 'deepseek/deepseek-r1:free', geminiModel: 'gemini-3.8-flash', prompt: 'You are a senior financial analyst and CFO advisor specializing in DCF valuation, unit economics, and cash flow modeling.' },
+      { name: 'DevOps & Kubernetes Engineer', desc: 'Automates CI/CD pipelines, Docker containers, and cloud infrastructure.', icon: 'Terminal', color: 'indigo', provider: 'openrouter', orModel: 'nvidia/nemotron-3.5-lightning', geminiModel: 'gemini-2.5-flash', prompt: 'You are a Principal DevOps Engineer specializing in Kubernetes, Terraform, AWS/GCP, and secure CI/CD automation.' },
+      { name: 'Cognitive Science & STEM Tutor', desc: 'Step-by-step interactive tutor for complex mathematical & scientific concepts.', icon: 'GraduationCap', color: 'emerald', provider: 'gemini', orModel: 'google/gemma-4-26b-a4b', geminiModel: 'gemini-3.8-flash', prompt: 'You are an engaging Socratic STEM instructor breaking down complex physics, math, and computer science concepts.' },
+      { name: 'Multimodal UI Inspector', desc: 'Evaluates interfaces and graphic layouts for accessibility and hierarchy.', icon: 'Sparkles', color: 'violet', provider: 'openrouter', orModel: 'inclusionai/ling-3.0-flash-vl', geminiModel: 'gemini-2.5-flash', prompt: 'You are a visual design and accessibility auditor specialized in interface layout and readability.' },
+      { name: 'Database Query Optimizer', desc: 'Rewrites slow queries, designs indexes, and models database schemas.', icon: 'Database', color: 'amber', provider: 'openrouter', orModel: 'cohere/north-mini-code', geminiModel: 'gemini-3.1-flash-lite', prompt: 'You are a database tuning specialist optimizing queries and designing normalized schemas.' },
+      { name: 'Liquid Foundation System Tuner', desc: 'Adaptive neural architectural optimizer for complex prompt logic.', icon: 'Zap', color: 'cyan', provider: 'openrouter', orModel: 'liquid/lfm-2.5-2.6b', geminiModel: 'gemini-3.8-flash', prompt: 'You are an advanced systems tuner configuring dynamic prompt structures.' },
+      { name: 'Auto-Routing Generalist Bot', desc: 'Autonomous general knowledge and problem-solving assistant.', icon: 'Bot', color: 'indigo', provider: 'openrouter', orModel: 'openrouter/auto:free', geminiModel: 'gemini-2.5-flash', prompt: 'You are an efficient general AI assistant ready to help with any task.' }
     ];
     const cat = categories[index % categories.length];
     return {
@@ -172,7 +278,9 @@ export const PRESET_GEMS: GemConfig[] = [
       ],
       icon: cat.icon,
       themeColor: cat.color as any,
-      model: 'gemini-3.8-flash',
+      provider: cat.provider as 'gemini' | 'openrouter',
+      openRouterModel: cat.orModel,
+      model: cat.geminiModel,
       temperature: 0.5,
       authorName: 'PromptBots for GitHub Library',
       requireApiKey: true

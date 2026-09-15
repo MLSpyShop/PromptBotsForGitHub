@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, Bot, Terminal, GraduationCap, Database, Code, Check, RefreshCw, Upload, Image as ImageIcon, Trash2, AlertCircle, CheckCircle2, Wand2, MessageSquare, Lightbulb, Zap, Briefcase, ShieldAlert, ArrowRight, LayoutTemplate, ChevronDown, ChevronUp, Info, HelpCircle } from 'lucide-react';
+import { Sparkles, Bot, Terminal, GraduationCap, Database, Code, Check, RefreshCw, Upload, Image as ImageIcon, Trash2, AlertCircle, CheckCircle2, Wand2, MessageSquare, Lightbulb, Zap, Briefcase, ShieldAlert, ArrowRight, LayoutTemplate, ChevronDown, ChevronUp, Info, HelpCircle, Search } from 'lucide-react';
 import { GemConfig } from '../types';
 import { PRESET_GEMS } from '../data/presets';
 
@@ -18,6 +18,9 @@ export function BuilderView({ config, onChange, onPreview, onOpenPresetsModal }:
   const [isEnhancingAll, setIsEnhancingAll] = useState(false);
   const [enhanceStatus, setEnhanceStatus] = useState<{ type: 'success' | 'error' | 'info'; message: string } | null>(null);
   const [newPromptInput, setNewPromptInput] = useState('');
+  const [presetSearch, setPresetSearch] = useState('');
+  const [presetCategory, setPresetCategory] = useState<string>('all');
+  const [visiblePresetCount, setVisiblePresetCount] = useState<number>(12);
 
   const handleInputChange = (field: keyof GemConfig, value: any) => {
     onChange({ ...config, [field]: value });
@@ -776,11 +779,11 @@ ${existing ? `\n## SPECIFIC INSTRUCTIONS\n${existing}\n` : ''}
               </div>
               <h3 className="font-bold text-slate-900 text-lg sm:text-xl tracking-tight">Try Presets</h3>
               <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 border border-indigo-100">
-                Instant Templates
+                100+ Instant Templates
               </span>
             </div>
             <p className="text-xs sm:text-sm text-slate-500">
-              Want inspiration? Click any pre-configured expert prompt bot to load its system prompt, greeting, and chips.
+              Explore pre-configured AI bots with specialized system instructions, greetings, and varied AI models.
             </p>
           </div>
 
@@ -788,66 +791,213 @@ ${existing ? `\n## SPECIFIC INSTRUCTIONS\n${existing}\n` : ''}
             <button
               type="button"
               onClick={onOpenPresetsModal}
-              className="inline-flex items-center space-x-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-800 transition border border-slate-200/80 self-start sm:self-auto"
+              className="inline-flex items-center space-x-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 hover:bg-slate-800 text-white transition shadow-xs self-start sm:self-auto"
             >
-              <span>Browse All 100+ Presets</span>
+              <span>Modal View</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           )}
         </div>
 
+        {/* Filter Controls & Search Bar */}
+        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 pt-1">
+          {/* Search */}
+          <div className="relative flex-1 max-w-md">
+            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={presetSearch}
+              onChange={(e) => {
+                setPresetSearch(e.target.value);
+                setVisiblePresetCount(12);
+              }}
+              placeholder="Search presets by name, topic, or model..."
+              className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-indigo-500 focus:bg-white transition"
+            />
+            {presetSearch && (
+              <button
+                type="button"
+                onClick={() => setPresetSearch('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs font-bold"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+
+          {/* Category Pills */}
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 text-xs scrollbar-none">
+            {[
+              { id: 'all', label: 'All' },
+              { id: 'strategy', label: 'Business & Strategy' },
+              { id: 'coding', label: 'Coding & DevOps' },
+              { id: 'security', label: 'Security & OSINT' },
+              { id: 'creative', label: 'Writing & Creative' },
+              { id: 'stem', label: 'STEM & Math' },
+              { id: 'data', label: 'SQL & Data' },
+              { id: 'vision', label: 'UX & Vision' }
+            ].map((cat) => (
+              <button
+                key={cat.id}
+                type="button"
+                onClick={() => {
+                  setPresetCategory(cat.id);
+                  setVisiblePresetCount(12);
+                }}
+                className={`px-3 py-1.5 rounded-xl font-medium transition whitespace-nowrap text-xs ${
+                  presetCategory === cat.id
+                    ? 'bg-indigo-600 text-white shadow-xs font-semibold'
+                    : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                }`}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
         {/* Featured Presets Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {PRESET_GEMS.slice(0, 6).map((preset) => (
-            <div
-              key={preset.id}
-              className="group bg-slate-50/70 hover:bg-white border border-slate-200 hover:border-indigo-400 hover:shadow-md rounded-2xl p-5 transition flex flex-col justify-between"
-            >
-              <div className="space-y-3">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 shadow-xs flex items-center justify-center group-hover:scale-105 transition flex-shrink-0">
-                    {getPresetIcon(preset.icon)}
-                  </div>
-                  <span className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-slate-200/80 text-slate-700">
-                    {preset.model}
-                  </span>
-                </div>
+        {(() => {
+          const filteredPresets = PRESET_GEMS.filter((preset) => {
+            const matchesSearch = !presetSearch.trim() || 
+              preset.name.toLowerCase().includes(presetSearch.toLowerCase()) ||
+              preset.description.toLowerCase().includes(presetSearch.toLowerCase()) ||
+              (preset.openRouterModel && preset.openRouterModel.toLowerCase().includes(presetSearch.toLowerCase())) ||
+              preset.model.toLowerCase().includes(presetSearch.toLowerCase());
 
-                <div>
-                  <h4 className="font-bold text-slate-900 text-sm group-hover:text-indigo-600 transition">
-                    {preset.name}
-                  </h4>
-                  <p className="text-xs text-slate-500 mt-1 line-clamp-2 leading-relaxed">
-                    {preset.description}
-                  </p>
-                </div>
+            if (!matchesSearch) return false;
 
-                {/* Quick starter chips preview */}
-                {preset.starterPrompts && preset.starterPrompts.length > 0 && (
-                  <div className="pt-1 flex flex-wrap gap-1">
-                    {preset.starterPrompts.slice(0, 2).map((chip, i) => (
-                      <span key={i} className="text-[10px] bg-white border border-slate-200 text-slate-600 px-2 py-0.5 rounded-md truncate max-w-[200px]">
-                        "{chip}"
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
+            if (presetCategory === 'all') return true;
+            if (presetCategory === 'strategy') return preset.name.includes('Strategist') || preset.name.includes('Business') || preset.name.includes('Financial') || preset.name.includes('Legal');
+            if (presetCategory === 'coding') return preset.name.includes('Code') || preset.name.includes('DevOps') || preset.name.includes('Prototyper') || preset.name.includes('Lightning');
+            if (presetCategory === 'security') return preset.name.includes('OSINT') || preset.name.includes('Threat') || preset.name.includes('Security') || preset.name.includes('Auditor');
+            if (presetCategory === 'creative') return preset.name.includes('Creative') || preset.name.includes('Muse') || preset.name.includes('Writing') || preset.name.includes('Story');
+            if (presetCategory === 'stem') return preset.name.includes('Tutor') || preset.name.includes('Math') || preset.name.includes('STEM') || preset.name.includes('Science');
+            if (presetCategory === 'data') return preset.name.includes('SQL') || preset.name.includes('Data') || preset.name.includes('Database') || preset.name.includes('Query');
+            if (presetCategory === 'vision') return preset.name.includes('UX') || preset.name.includes('Vision') || preset.name.includes('Design') || preset.name.includes('Critic');
+            return true;
+          });
 
-              <div className="pt-4 mt-4 border-t border-slate-200/60 flex items-center justify-between">
-                <span className="text-[11px] text-slate-400 font-medium">Ready to customize</span>
+          const visibleList = filteredPresets.slice(0, visiblePresetCount);
+
+          if (filteredPresets.length === 0) {
+            return (
+              <div className="text-center py-12 bg-slate-50/50 rounded-2xl border border-dashed border-slate-200 space-y-2">
+                <Bot className="w-8 h-8 text-slate-400 mx-auto" />
+                <p className="text-sm font-semibold text-slate-700">No presets matched your search</p>
+                <p className="text-xs text-slate-400">Try searching for different keywords or resetting filters.</p>
                 <button
                   type="button"
-                  onClick={() => handleSelectPreset(preset)}
-                  className="inline-flex items-center space-x-1 text-xs font-bold text-indigo-600 hover:text-indigo-700 group-hover:translate-x-0.5 transition"
+                  onClick={() => { setPresetSearch(''); setPresetCategory('all'); }}
+                  className="mt-2 px-3 py-1.5 bg-white border border-slate-200 text-xs font-semibold text-indigo-600 rounded-lg shadow-xs hover:bg-slate-50"
                 >
-                  <span>Load Preset</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  Clear Filters
                 </button>
               </div>
+            );
+          }
+
+          return (
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {visibleList.map((preset) => {
+                  const modelLabel = preset.provider === 'openrouter'
+                    ? (preset.openRouterModel === 'openrouter/auto:free'
+                        ? '⚡ Auto-Free'
+                        : (preset.openRouterModel?.split('/')[1] || preset.openRouterModel || 'OpenRouter').replace(':free', ''))
+                    : preset.model;
+
+                  return (
+                    <div
+                      key={preset.id}
+                      className="group bg-slate-50/70 hover:bg-white border border-slate-200 hover:border-indigo-400 hover:shadow-md rounded-2xl p-5 transition flex flex-col justify-between"
+                    >
+                      <div className="space-y-3">
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 shadow-xs flex items-center justify-center group-hover:scale-105 transition flex-shrink-0">
+                            {getPresetIcon(preset.icon)}
+                          </div>
+                          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 border border-indigo-100/80 truncate max-w-[140px]" title={modelLabel}>
+                            {modelLabel}
+                          </span>
+                        </div>
+
+                        <div>
+                          <h4 className="font-bold text-slate-900 text-sm group-hover:text-indigo-600 transition">
+                            {preset.name}
+                          </h4>
+                          <p className="text-xs text-slate-500 mt-1 line-clamp-2 leading-relaxed">
+                            {preset.description}
+                          </p>
+                        </div>
+
+                        {/* Quick starter chips preview */}
+                        {preset.starterPrompts && preset.starterPrompts.length > 0 && (
+                          <div className="pt-1 flex flex-wrap gap-1">
+                            {preset.starterPrompts.slice(0, 2).map((chip, i) => (
+                              <span key={i} className="text-[10px] bg-white border border-slate-200 text-slate-600 px-2 py-0.5 rounded-md truncate max-w-[200px]">
+                                "{chip}"
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="pt-4 mt-4 border-t border-slate-200/60 flex items-center justify-between">
+                        <span className="text-[11px] text-slate-400 font-medium">Ready to customize</span>
+                        <button
+                          type="button"
+                          onClick={() => handleSelectPreset(preset)}
+                          className="inline-flex items-center space-x-1 text-xs font-bold text-indigo-600 hover:text-indigo-700 group-hover:translate-x-0.5 transition"
+                        >
+                          <span>Load Preset</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Show More / Pagination controls */}
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2 border-t border-slate-100">
+                <span className="text-xs text-slate-500">
+                  Showing <strong className="text-slate-800">{visibleList.length}</strong> of <strong className="text-slate-800">{filteredPresets.length}</strong> available presets
+                </span>
+
+                <div className="flex items-center space-x-2">
+                  {visiblePresetCount < filteredPresets.length && (
+                    <button
+                      type="button"
+                      onClick={() => setVisiblePresetCount((prev) => Math.min(prev + 12, filteredPresets.length))}
+                      className="px-4 py-2 rounded-xl text-xs font-bold bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200/80 transition"
+                    >
+                      Show More Presets (+12)
+                    </button>
+                  )}
+                  {visiblePresetCount < filteredPresets.length && (
+                    <button
+                      type="button"
+                      onClick={() => setVisiblePresetCount(filteredPresets.length)}
+                      className="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition"
+                    >
+                      Show All ({filteredPresets.length})
+                    </button>
+                  )}
+                  {visiblePresetCount > 12 && (
+                    <button
+                      type="button"
+                      onClick={() => setVisiblePresetCount(12)}
+                      className="px-3 py-2 rounded-xl text-xs font-semibold text-slate-500 hover:text-slate-800 transition"
+                    >
+                      Show Less
+                    </button>
+                  )}
+                </div>
+              </div>
             </div>
-          ))}
-        </div>
+          );
+        })()}
       </section>
 
     </div>
