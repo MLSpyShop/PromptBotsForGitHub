@@ -290,7 +290,7 @@ app.post("/api/chat-preview", async (req, res) => {
 
     if (provider === 'openrouter' && (openRouterApiKey || process.env.OPENROUTER_API_KEY)) {
       const apiKey = openRouterApiKey || process.env.OPENROUTER_API_KEY;
-      const orModel = openRouterModel || "deepseek/deepseek-r1:free";
+      const orModel = openRouterModel || "openrouter/auto:free";
       const formattedMessages = [
         { role: "system", content: systemInstruction || "You are a helpful AI assistant." },
         ...(messages || []).map((m: any) => ({
@@ -298,6 +298,8 @@ app.post("/api/chat-preview", async (req, res) => {
           content: m.content + (m.attachment ? `\n[Attachment: ${m.attachment.mimeType}]` : "")
         }))
       ];
+
+      const fallbackModels = [orModel, "deepseek/deepseek-r1:free", "google/gemini-2.0-flash-exp:free", "meta-llama/llama-3.3-70b-instruct:free"].filter((v, i, a) => a.indexOf(v) === i);
 
       const orRes = await fetch("https://openrouter.ai/api/v1/chat/completions", {
         method: "POST",
@@ -309,6 +311,7 @@ app.post("/api/chat-preview", async (req, res) => {
         },
         body: JSON.stringify({
           model: orModel,
+          models: fallbackModels,
           messages: formattedMessages
         })
       });

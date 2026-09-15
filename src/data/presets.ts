@@ -11,7 +11,7 @@ export const INITIAL_EMPTY_BOT: GemConfig = {
   themeColor: 'indigo',
   model: 'gemini-2.5-flash',
   provider: 'openrouter',
-  openRouterModel: 'deepseek/deepseek-r1:free',
+  openRouterModel: 'openrouter/auto:free',
   temperature: 0.7,
   authorName: '',
   requireApiKey: true

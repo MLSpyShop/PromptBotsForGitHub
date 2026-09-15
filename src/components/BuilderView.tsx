@@ -385,21 +385,38 @@ ${existing ? `\n## SPECIFIC INSTRUCTIONS\n${existing}\n` : ''}
 
                 {config.provider !== 'gemini' ? (
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1.5">Open-Source Free Model</label>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1.5">Open-Source & Next-Gen Model</label>
                     <select
-                      value={config.openRouterModel || 'deepseek/deepseek-r1:free'}
+                      value={config.openRouterModel || 'openrouter/auto:free'}
                       onChange={(e) => handleInputChange('openRouterModel', e.target.value)}
                       className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-900 focus:outline-none focus:border-indigo-500 focus:bg-white transition font-medium"
                     >
-                      <option value="deepseek/deepseek-r1:free">DeepSeek R1 (Free Reasoning)</option>
-                      <option value="deepseek/deepseek-chat:free">DeepSeek V3 (Free Chat)</option>
-                      <option value="google/gemini-2.0-flash-exp:free">Gemini 2.0 Flash (Free)</option>
-                      <option value="meta-llama/llama-3.3-70b-instruct:free">Llama 3.3 70B (Free)</option>
-                      <option value="qwen/qwen-2.5-72b-instruct:free">Qwen 2.5 72B (Free)</option>
-                      <option value="mistralai/mistral-7b-instruct:free">Mistral 7B (Free)</option>
-                      <option value="google/gemma-2-9b-it:free">Gemma 2 9B (Free)</option>
-                      <option value="microsoft/phi-3-medium-128k-instruct:free">Phi-3 Medium 128k (Free)</option>
-                      <option value="meta-llama/llama-3.1-8b-instruct:free">Llama 3.1 8B (Free)</option>
+                      <optgroup label="⚡ Auto-Routing">
+                        <option value="openrouter/auto:free">⚡ Auto-select Free Endpoint (Dynamic Free Routing)</option>
+                      </optgroup>
+
+                      <optgroup label="🚀 Next-Gen Frontier Models">
+                        <option value="deepseek/deepseek-r1:free">DeepSeek R1 Free (Reasoning & Math)</option>
+                        <option value="deepseek/deepseek-chat:free">DeepSeek V3 (Chat & Code Synthesis)</option>
+                        <option value="nvidia/nemotron-3-ultra">NVIDIA Nemotron 3 Ultra (Ultra Intelligence)</option>
+                        <option value="nvidia/nemotron-3.5-lightning">NVIDIA Nemotron 3.5 Lightning (High-Speed Inference)</option>
+                        <option value="poolside/laguna-s-2.1">Poolside Laguna S 2.1 (Software Architecture & Code)</option>
+                        <option value="google/gemma-4-26b-a4b">Google Gemma 4-26B A4B (Advanced Architecture)</option>
+                        <option value="thinkingmachines/inkling-small">ThinkingMachines Inkling Small (Efficient Reasoning)</option>
+                        <option value="inclusionai/ling-3.0-flash-vl">InclusionAI Ling 3.0 Flash VL (Multimodal Vision-Language)</option>
+                        <option value="cohere/north-mini-code">Cohere North Mini Code (Fast Code Synthesis)</option>
+                        <option value="liquid/lfm-2.5-2.6b">LiquidAI LFM 2.5-2.6B (Liquid Foundation Architecture)</option>
+                      </optgroup>
+
+                      <optgroup label="🌐 Popular Open-Source Free Tier">
+                        <option value="google/gemini-2.0-flash-exp:free">Gemini 2.0 Flash (Free)</option>
+                        <option value="meta-llama/llama-3.3-70b-instruct:free">Llama 3.3 70B Instruct (Free)</option>
+                        <option value="qwen/qwen-2.5-72b-instruct:free">Qwen 2.5 72B (Free)</option>
+                        <option value="mistralai/mistral-7b-instruct:free">Mistral 7B (Free)</option>
+                        <option value="google/gemma-2-9b-it:free">Gemma 2 9B (Free)</option>
+                        <option value="microsoft/phi-3-medium-128k-instruct:free">Phi-3 Medium 128k (Free)</option>
+                        <option value="meta-llama/llama-3.1-8b-instruct:free">Llama 3.1 8B (Free)</option>
+                      </optgroup>
                     </select>
                   </div>
                 ) : (
